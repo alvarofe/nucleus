@@ -129,3 +129,23 @@ export_cfg2dot(std::string &fname, CFG *cfg)
   return 0;
 }
 
+int
+export_radare (std::string &fname, Binary *bin, std::list<DisasmSection> *disasm, CFG *cfg)
+{
+  FILE *f;
+  uint64_t entry;
+
+  f = fopen(fname.c_str(), "w");
+  if(!f) {
+    print_err("cannot open file '%s' for writing", fname.c_str());
+    return -1;
+  }
+  for(auto &func: cfg->functions) {
+    if(func.entry.empty()) continue;
+    entry = func.entry.front()->start;
+    fprintf(f, "af@0x%jx\n", entry);
+  }
+  fclose(f);
+  return 0;
+}
+

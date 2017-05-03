@@ -52,6 +52,8 @@ print_usage(char *prog)
   printf("     : export binary info to IDA Pro script\n");
   printf("  -n <file>\n");
   printf("     : export binary info to Binary Ninja script\n");
+  printf("  -r <file>\n");
+  printf("     : export binary info to radare2 resource file\n");
   printf("  -v : verbose\n");
   printf("  -w : disable warnings\n");
   printf("  -h : help\n");
@@ -65,7 +67,7 @@ int
 parse_options(int argc, char *argv[])
 {
   int i, opt;
-  char optstr[] = "vwhd:t:a:fb:Dpg:i:n:e:";
+  char optstr[] = "vwhd:t:a:fb:Dpg:i:r:n:e:";
   extern const char *binary_types_descr[][2];
   extern const char *binary_arch_descr[][2];
   std::string s;
@@ -169,7 +171,9 @@ parse_options(int argc, char *argv[])
     case 'n':
       options.exports.binja = std::string(optarg);
       break;
-
+    case 'r':
+      options.exports.radare = std::string(optarg);
+      break;
     case 'd':
       options.strategy_function.name = std::string(optarg);
       break;
